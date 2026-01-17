@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
+from django_summernote.admin import SummernoteModelAdmin
 from .models import Subject, Chapter
 
 
@@ -14,7 +15,8 @@ class SubjectAdmin(admin.ModelAdmin):
 
 
 @admin.register(Chapter)
-class ChapterAdmin(admin.ModelAdmin):
+class ChapterAdmin(SummernoteModelAdmin):
+    summernote_fields = ("content", "learning_objectives")
     list_display = ("title", "subject", "chapter_number", "estimated_duration_hours")
     list_filter = ("subject", "created_at")
     search_fields = ("title", "content", "learning_objectives")

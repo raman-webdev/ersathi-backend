@@ -9,7 +9,6 @@ services:
       - .env
     volumes:
       - .:/app
-      - static_volume:/app/staticfiles
       - media_volume:/app/media
       - logs_volume:/app/logs
     ports:
@@ -25,6 +24,7 @@ services:
       - DB_PORT=5432
     command: >
       sh -c "while ! pg_isready -h db -p 5432 -U ${DB_USER}; do sleep 1; done;
+             python manage.py collectstatic --noinput &&
              python manage.py makemigrations &&
              python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"

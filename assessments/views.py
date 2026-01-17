@@ -52,10 +52,13 @@ class ExamViewSet(viewsets.ModelViewSet):
 
 
 class ExamAttemptViewSet(viewsets.ModelViewSet):
+    queryset = ExamAttempt.objects.all()
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrStaff]
     serializer_class = ExamAttemptSerializer
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return ExamAttempt.objects.none()
         if self.request.user.is_staff:
             return ExamAttempt.objects.all()
         return ExamAttempt.objects.filter(student=self.request.user)

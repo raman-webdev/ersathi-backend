@@ -12,6 +12,7 @@ from core.permissions import IsOwnerOrStaff
 
 
 class LikedItemViewSet(viewsets.ModelViewSet):
+    queryset = LikedItem.objects.all()
     serializer_class = LikedItemSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrStaff]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -22,6 +23,8 @@ class LikedItemViewSet(viewsets.ModelViewSet):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return LikedItem.objects.none()
         if self.request.user.is_staff:
             return LikedItem.objects.all()
         return LikedItem.objects.filter(student=self.request.user.student_profile)

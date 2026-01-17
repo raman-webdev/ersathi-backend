@@ -22,7 +22,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = os.environ.get("DEBUG", "False").lower() in ("true", "1", "yes")
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 
@@ -47,8 +47,7 @@ THIRD_PARTY_APPS = [
     "djoser",
     "guardian",
     # Content Management
-    "ckeditor",
-    "ckeditor_uploader",
+    "django_summernote",
     "autoslug",
     "smart_selects",
     # API Tools
@@ -177,14 +176,14 @@ USE_TZ = True
 # STATIC & MEDIA FILES
 # ============================================================================
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"] if (BASE_DIR / "static").exists() else []
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-CKEDITOR_UPLOAD_PATH = "ck_editor_uploads/"
+# Summernote uploads handled via MEDIA_ROOT
 
 # ============================================================================
 # DEFAULT PRIMARY KEY FIELD TYPE
@@ -251,15 +250,31 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # ============================================================================
-# CKEDITOR CONFIGURATION
+# SUMMERNOTE CONFIGURATION
 # ============================================================================
 
-CKEDITOR_CONFIGS = {
-    "default": {
-        "toolbar": "full",
-        "height": 300,
+SUMMERNOTE_THEME = "bs5"  # Bootstrap 5
+SUMMERNOTE_CONFIG = {
+    "iframe": True,
+    "summernote": {
+        "airMode": False,
         "width": "100%",
+        "height": "400",
+        "toolbar": [
+            ["style", ["style"]],
+            ["font", ["bold", "italic", "underline", "strikethrough", "clear"]],
+            ["fontname", ["fontname"]],
+            ["fontsize", ["fontsize"]],
+            ["color", ["color"]],
+            ["para", ["ul", "ol", "paragraph"]],
+            ["height", ["height"]],
+            ["table", ["table"]],
+            ["insert", ["link", "picture", "video", "hr"]],
+            ["view", ["fullscreen", "codeview", "help"]],
+        ],
     },
+    "attachment_require_authentication": True,
+    "attachment_filesize_limit": 10 * 1024 * 1024,  # 10MB
 }
 
 # ============================================================================
