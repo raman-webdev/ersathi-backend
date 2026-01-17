@@ -35,7 +35,7 @@ cp .env.example .env
 3. Build and start the containers:
 
 ```bash
-docker-compose up --build
+docker-compose -f docker-compose.local.yml up --build
 ```
 
 The application will be available at `http://localhost:8000`
