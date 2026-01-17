@@ -2,15 +2,16 @@ services:
   web:
     build:
       context: .
-      args:
-        - DEV=true
       dockerfile: Dockerfile
+      args:
+        - DEV=${DEBUG}
     env_file:
       - .env
     volumes:
       - .:/app
       - static_volume:/app/staticfiles
       - media_volume:/app/media
+      - logs_volume:/app/logs
     ports:
       - "8000:8000"
     environment:
@@ -20,13 +21,13 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
+      - DB_HOST=db
+      - DB_PORT=5432
     command: >
       sh -c "while ! pg_isready -h db -p 5432 -U ${DB_USER}; do sleep 1; done;
              python manage.py makemigrations &&
              python manage.py migrate &&
-             gunicorn erSathi.wsgi:application --bind 0.0.0.0:8000"
+             python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - db
     restart: unless-stopped
@@ -65,3 +66,4 @@ volumes:
   postgres_data:
   static_volume:
   media_volume:
+  logs_volume:

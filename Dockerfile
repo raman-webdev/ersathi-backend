@@ -18,15 +18,21 @@ RUN apk add --no-cache \
 COPY requirements.txt /tmp/requirements.txt
 COPY requirements.dev.txt /tmp/requirements.dev.txt
 
-ARG DEBUG=false
+ARG DEV=false
 RUN pip install --no-cache-dir -r /tmp/requirements.txt && \
-    if [ $DEBUG = "true" ]; \
-    then pip install --no-cache-dir -r /tmp/requirements.dev.txt ; \
+    if [ "$DEV" = "true" ]; then \
+        pip install --no-cache-dir -r /tmp/requirements.dev.txt; \
     fi && \
     rm -rf /tmp
 
 # Copy project
 COPY . .
+
+# Create necessary directories
+RUN mkdir -p /app/logs /app/staticfiles /app/media
+
+# Collect static files (ignore errors in development)
+RUN python manage.py collectstatic --noinput --clear || true
 
 # Run the application
 CMD ["gunicorn", "erSathi.wsgi:application", "--bind", "0.0.0.0:8000"]
