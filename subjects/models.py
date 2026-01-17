@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
-from ckeditor.fields import RichTextField
-from ckeditor_uploader.fields import RichTextUploadingField
 
 # subjects models
 
@@ -43,9 +41,9 @@ class Chapter(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(blank=True)
     chapter_number = models.PositiveIntegerField(unique=True)
-    content = RichTextUploadingField()
+    content = models.TextField()  # Rich text handled by Summernote in admin
     video_url = models.URLField(blank=True)
-    learning_objectives = RichTextField(blank=True)
+    learning_objectives = models.TextField(blank=True)  # Rich text handled by Summernote in admin
     estimated_duration_hours = models.PositiveIntegerField(
         help_text=_("Estimated time to complete in hours")
     )

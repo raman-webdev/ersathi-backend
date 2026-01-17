@@ -11,6 +11,7 @@ from core.permissions import IsOwnerOrStaff
 
 # Create your views here.
 class QuestionAttemptViewSet(viewsets.ModelViewSet):
+    queryset = QuestionAttempt.objects.all()
     serializer_class = QuestionAttemptSerializer
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrStaff]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -21,6 +22,8 @@ class QuestionAttemptViewSet(viewsets.ModelViewSet):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return QuestionAttempt.objects.none()
         if self.request.user.is_staff:
             return QuestionAttempt.objects.all()
         return QuestionAttempt.objects.filter(student=self.request.user)
@@ -30,6 +33,7 @@ class QuestionAttemptViewSet(viewsets.ModelViewSet):
 
 
 class ChapterProgressViewSet(viewsets.ModelViewSet):
+    queryset = ChapterProgress.objects.all()
     serializer_class = ChapterProgressSerializer
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrStaff]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -40,6 +44,8 @@ class ChapterProgressViewSet(viewsets.ModelViewSet):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return ChapterProgress.objects.none()
         if self.request.user.is_staff:
             return ChapterProgress.objects.all()
         return ChapterProgress.objects.filter(student=self.request.user)

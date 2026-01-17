@@ -11,6 +11,8 @@ scripts/*
 __pycache__
 db.sqlite3
 media
+staticfiles/
+logs/
 
 # Backup files #
 *.bak

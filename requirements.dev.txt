@@ -1,1 +1,30 @@
+# Include all production requirements
+-r requirements.txt
+
+# Code Quality
 flake8==7.3.0
+black==24.1.1
+isort==5.13.2
+pylint==3.0.3
+flake8-docstrings==1.7.0
+pep8-naming==0.13.3
+
+# Testing
+pytest==7.4.4
+pytest-django==4.7.0
+pytest-cov==4.1.0
+factory-boy==3.3.0
+faker==22.6.0
+
+# Debugging & Development
+django-debug-toolbar==5.1.0
+ipython==8.19.0
+django-extensions==3.2.3
+werkzeug==3.0.1
+
+# Documentation
+Sphinx==7.2.6
+sphinx-rtd-theme==2.0.0
+
+# Environment Management
+python-decouple==3.8

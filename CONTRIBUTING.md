@@ -43,7 +43,7 @@ Before contributing, make sure you have:
 
    ```bash
    cp .env.example .env
-   docker-compose up --build
+   docker-compose -f docker-compose.local.yml up --build
    ```
 
    This will start the app at `http://localhost:8000`.

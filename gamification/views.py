@@ -28,6 +28,7 @@ class BadgeViewSet(viewsets.ModelViewSet):
 
 
 class UserBadgeViewSet(viewsets.ModelViewSet):
+    queryset = UserBadge.objects.all()
     serializer_class = UserBadgeSerializer
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrStaff]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -38,6 +39,8 @@ class UserBadgeViewSet(viewsets.ModelViewSet):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return UserBadge.objects.none()
         if self.request.user.is_staff:
             return UserBadge.objects.all()
         return UserBadge.objects.filter(user=self.request.user)
@@ -47,6 +50,7 @@ class UserBadgeViewSet(viewsets.ModelViewSet):
 
 
 class PointViewSet(viewsets.ModelViewSet):
+    queryset = Point.objects.all()
     serializer_class = PointSerializer
     permission_classes = [permissions.IsAuthenticated, IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -57,6 +61,8 @@ class PointViewSet(viewsets.ModelViewSet):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return Point.objects.none()
         if self.request.user.is_staff:
             return Point.objects.all()
         return Point.objects.filter(user=self.request.user)

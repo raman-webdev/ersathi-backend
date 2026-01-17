@@ -28,6 +28,8 @@ class StudentProfileViewSet(ModelViewSet):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return StudentProfile.objects.none()
         if self.request.user.is_staff:
             return StudentProfile.objects.all()
         return StudentProfile.objects.filter(user=self.request.user)

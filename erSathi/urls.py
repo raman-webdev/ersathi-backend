@@ -24,11 +24,7 @@ admin.site.site_header = "Er Sathi Admin"
 admin.site.index_title = "Admin"
 
 from django.urls import path
-from drf_spectacular.views import (
-    SpectacularAPIView,
-    SpectacularSwaggerView,
-    SpectacularRedocView,
-)
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 
 urlpatterns = [
@@ -45,15 +41,11 @@ urlpatterns = [
     path("likes/", include("likes.urls")),
     path("auth/", include("djoser.urls")),
     path("auth/", include("djoser.urls.jwt")),
-    path("ckeditor/", include("ckeditor_uploader.urls")),
+    path("summernote/", include("django_summernote.urls")),
     path("chaining/", include("smart_selects.urls")),
     # API documentation
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    path(
-        "api/docs/",
-        SpectacularSwaggerView.as_view(url_name="schema"),
-        name="docs",
-    ),
+    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="docs"),
 ]
 
 if settings.DEBUG:
