@@ -119,11 +119,8 @@ If your contribution requires authentication (e.g., API token), please contact t
 
 ## Maintainers
 
-- Md Jiyaul Haq ([https://github.com/MdJiyaulHaq](https://github.com/MdJiyaulHaq))
+- Raman Tharu ([https://github.com/MdJiyaulHaq](https://github.com/raman-webdev))
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Contributors
 # ersathi-backend
