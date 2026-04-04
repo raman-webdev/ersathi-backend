@@ -119,7 +119,7 @@ If your contribution requires authentication (e.g., API token), please contact t
 
 ## Maintainers
 
-- Raman Tharu ([https://github.com/MdJiyaulHaq](https://github.com/raman-webdev))
+- Raman Tharu ((https://github.com/raman-webdev))
 
 
 ## Contributors
